@@ -1,0 +1,51 @@
+Geo_ID,Region,Country,City
+1,Asia,India,Bengaluru
+2,ASIA,  India ,Delhi
+3,Asia,India,Hyderabad
+4,Asia,India,Mumbai
+5,Asia,Indonesia,  Jakarta 
+6,Asia,Indonesia,Surabaya
+7,Asia,Thailand,Bangkok
+8,Asia,Thailand,Chiang Mai
+9,Asia,uae,Abu Dhabi
+10,Asia,UAE,Dubai
+11,Europe,France,lyon
+12,Europe,France,Marseille
+13,Europe,France,Paris
+14,Europe,Germany,Berlin
+15,EUROPE,Germany,Hamburg
+16,Europe,Germany,Munich
+17,Europe,Italy,Milan
+18,Europe,Italy,Rome
+19,Europe,Italy,Turin
+20,Europe,Spain,Barcelona
+21,Europe,spain,MADRID
+22,Europe,Spain,Valencia
+23,EUROPE,UK,Birmingham
+24,Europe,  UK ,London
+25,Europe,UK,Manchester
+26,North America,CANADA,Montreal
+27,North America,Canada,Toronto
+28,North America,Canada,Vancouver
+29,North America,Mexico,Guadalajara
+30,North America,Mexico,Mexico City
+31,North America,Mexico,Monterrey
+32,North America,USA,Atlanta
+33,North America,USA,Chicago
+34,North America,USA,Dallas
+35,North America,USA,Los Angeles
+36,North America,USA,New York
+37,Oceania,Australia,  Brisbane 
+38,Oceania,Australia,Melbourne
+39,  Oceania ,Australia,Perth
+40,Oceania,Australia,Sydney
+41,Oceania,New Zealand,Auckland
+42,Oceania,New Zealand,Wellington
+43,South America,Brazil,Rio de Janeiro
+44,South America,Brazil,Sao Paulo
+45,  South America ,Chile,Santiago
+46,South America,Chile,Valparaiso
+47,South America,Colombia,Bogota
+48,South America,Colombia,Medellin
+3,Asia,India,Hyderabad
+37,Oceania,Australia,  Brisbane 
