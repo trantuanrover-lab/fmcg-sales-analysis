@@ -124,6 +124,3 @@ Xác định bằng cách chia bin và tính Loss Rate theo từng khoảng (DAX
 - **Không có thông tin vận chuyển** (hình thức, đơn vị vận chuyển/carrier) nên chưa xác định được nguyên nhân gốc của Logistics Cost cao - chỉ dừng ở mức quan sát tương quan với quy mô đơn hàng (Units_Sold).
 - **Correlation, không phải causation** - Discount, Marketing Cost và Logistics Cost đều tương quan với Loss, nhưng project chưa kiểm định liệu 3 yếu tố này có tương quan lẫn nhau không (ví dụ đơn discount cao có luôn đi kèm marketing cao). Nếu có, một phần ảnh hưởng có thể bị đếm trùng giữa các yếu tố.
 - **166 dòng Discount_Pct gốc >100%** đã được cap về 100% thay vì truy được giá trị đúng - đây là lỗi nhập liệu chưa rõ nguồn gốc, cần điều tra thêm nếu muốn dùng nhóm này cho phân tích sâu hơn.
-- **Notebook cleaning hiện chưa khớp hoàn toàn với dữ liệu 20,434 dòng** đang dùng trong Excel/Power BI (do lỗi thứ tự xử lý biến `df_merged`) - cần vá lại để đảm bảo kết quả tái lập được từ đầu đến cuối pipeline.
-
-```
