@@ -126,14 +126,4 @@ Xác định bằng cách chia bin và tính Loss Rate theo từng khoảng (DAX
 - **166 dòng Discount_Pct gốc >100%** đã được cap về 100% thay vì truy được giá trị đúng - đây là lỗi nhập liệu chưa rõ nguồn gốc, cần điều tra thêm nếu muốn dùng nhóm này cho phân tích sâu hơn.
 - **Notebook cleaning hiện chưa khớp hoàn toàn với dữ liệu 20,434 dòng** đang dùng trong Excel/Power BI (do lỗi thứ tự xử lý biến `df_merged`) - cần vá lại để đảm bảo kết quả tái lập được từ đầu đến cuối pipeline.
 
----
-
-## Cấu trúc thư mục đề xuất
-
-```
-├── notebooks/Data_Cleanning.ipynb
-├── database/fmcg_sales.db
-├── excel/loss-root-causes.xlsx
-├── powerbi/annual_cost_and_promotion_analysis.pbix
-└── images/   ← ảnh chụp màn hình dùng trong README này
 ```
