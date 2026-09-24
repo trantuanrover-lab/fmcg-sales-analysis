@@ -39,7 +39,8 @@ Dữ liệu gốc 20,745 dòng, nhiều lỗi được phát hiện và xử lý
 | `Unit_Price_USD = 0` | 104 |
 | `Discount_Pct > 100%` (lỗi nhập liệu) | 166 |
 
-→ Sau khi loại các dòng lỗi trên: **còn lại 20,434 đơn hàng hợp lệ**, dùng cho toàn bộ phân tích bên dưới.
+Dữ liệu `Units_Sold < 0` được loại bỏ vì được xác định là đơn hoàn trả, cần thiết để đảm bảo cấu trúc chi phí không sai lệch. `Unit_Price_USD = 0` được loại bỏ vì đây có thể là lỗi nhập liệu vì trong mọi trường hợp nhập liệu không nên điều chỉnh thông tin giá gốc của sản phẩm, tương tự như vậy dữ liệu có `Discount_Pct > 100%` cũng có thể là lỗi nhập liệu, tuy nhiên tác giả quyết định giới hạn trên về 100 và lưu ý trường hợp này trong phân tích. 
+-> Sau khi loại các dòng lỗi trên: **còn lại 20,434 đơn hàng hợp lệ**, dùng cho toàn bộ phân tích bên dưới.
 
 ---
 
@@ -149,16 +150,3 @@ Marketing_Pct và Logistics_Pct tương quan khá mạnh (rho = .627), Discount_
 - **Mô hình Logistic Regression chỉ dự đoán tốt nhóm Earn** (sensitivity nhóm Loss 42.7%) do dữ liệu mất cân bằng lớp (94.6% Earn) - mô hình phù hợp cho mục đích giải thích (explanatory), không nên dùng để dự đoán/phân loại đơn hàng mới.
 - **Units_Sold trong mô hình đa biến bị Simpson's Paradox** (đổi chiều so với phân tích đơn biến) do liên hệ toán học với Gross_Sales - không dùng hệ số Units_Sold từ mô hình này để suy luận về quy mô đơn hàng.
 - **166 dòng Discount_Pct gốc >100%** đã được cap về 100% thay vì truy được giá trị đúng - đây là lỗi nhập liệu chưa rõ nguồn gốc, cần điều tra thêm nếu muốn dùng nhóm này cho phân tích sâu hơn.
-- **Notebook cleaning hiện chưa khớp hoàn toàn với dữ liệu 20,434 dòng** đang dùng trong Excel/Power BI (do lỗi thứ tự xử lý biến `df_merged`) - cần vá lại để đảm bảo kết quả tái lập được từ đầu đến cuối pipeline.
-
----
-
-## Cấu trúc thư mục đề xuất
-
-```
-├── notebooks/Data_Cleanning.ipynb
-├── database/fmcg_sales.db
-├── excel/loss-root-causes.xlsx
-├── powerbi/annual_cost_and_promotion_analysis.pbix
-└── images/   ← ảnh chụp màn hình dùng trong README này
-```
