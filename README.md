@@ -109,6 +109,29 @@ Xác định bằng cách chia bin và tính Loss Rate theo từng khoảng (DAX
 
 ---
 
+## 4. Kiểm định thống kê - SPSS (Correlation & Binary Logistic Regression)
+
+Bin analysis (Power BI) cho thấy Discount, Marketing Cost, Logistics Cost đều tương quan với Loss - nhưng chưa trả lời được: liệu 3 yếu tố này có đang "đếm trùng" lẫn nhau không. SPSS được dùng để kiểm định chặt hơn.
+
+**Tương quan (Spearman)**
+
+![SPSS Correlation](images/spss_correlation.png)
+
+Marketing_Pct và Logistics_Pct tương quan khá mạnh (rho = .627), Discount_Pct tương quan nghịch với Logistics_Pct (rho = -.511). Kiểm tra thêm bằng VIF (Python) cho cả 3 biến đều dưới 2.2 (< ngưỡng 5) → đa cộng tuyến không nghiêm trọng, hệ số hồi quy bên dưới vẫn đáng tin cậy.
+
+**Binary Logistic Regression** (Dependent: Profit_Flag; Independent: Discount_Pct, Marketing_Pct, Logistics_Pct, Units_Sold)
+
+![SPSS Regression Coefficients](images/spss_regression_coefficients.png)
+![SPSS Model Fit](images/spss_model_fit.png)
+
+- **Cả 4 biến đều có ý nghĩa thống kê (p < .001)** ngay cả khi kiểm soát lẫn nhau → Discount, Marketing Cost, Logistics Cost là 3 nguyên nhân **độc lập**, không phải một biến "ăn theo" biến khác.
+- Model fit tốt: Hosmer-Lemeshow p = .281 (>0.05, không có bằng chứng thiếu fit); Nagelkerke R² = .559.
+- Quy đổi Exp(B) về cùng đơn vị "mỗi 1 điểm % tăng thêm" để so sánh công bằng: Discount +3.7% odds lỗ, Marketing +30% odds lỗ, **Logistics +102% odds lỗ (gấp đôi)** - theo hồi quy đa biến, Logistics Cost có độ nhạy cận biên mạnh nhất, dù ở bin analysis đơn biến trước đó có vẻ ảnh hưởng nhẹ hơn Marketing.
+- Classification table: 96.8% đúng tổng thể, nhưng riêng nhóm Loss chỉ đúng 42.7% - do mất cân bằng lớp (94.6% Earn). Mục tiêu ở đây là giải thích (Sig./Exp(B)), không phải dự đoán, nên không dùng % chính xác tổng thể làm thước đo chính.
+- Units_Sold đổi chiều so với phân tích đơn biến (dương thay vì âm) - hiện tượng Simpson's Paradox do Units_Sold liên hệ toán học với Gross_Sales (mẫu số của 3 biến % kia). Ngưỡng miễn ship 150 units vẫn giữ nguyên theo bin analysis đơn biến, không dùng con số này từ mô hình đa biến.
+
+---
+
 ## Key Insights
 
 1. **94.6% đơn hàng có lãi**, nhưng 5.4% đơn Loss (1,096 đơn) đã ăn mòn 125,395 USD lợi nhuận.
@@ -117,10 +140,25 @@ Xác định bằng cách chia bin và tính Loss Rate theo từng khoảng (DAX
 4. **Ngưỡng an toàn rõ ràng cho 2/3 chi phí**: Marketing Cost ≤15-20% Gross Sale, đơn hàng ≥150 units. Riêng Discount không cho thấy quan hệ nhân quả rõ trong khoảng hợp lệ (0-30%).
 5. **No Promo và Loyalty Cashback là 2 hình thức hiệu quả nhất** (ROI cao, Loss Rate thấp) - nên ưu tiên phân bổ ngân sách, trong khi Festival Campaign (ROI thấp nhất, Loss Rate cao nhất) nên cắt giảm.
 6. Xu hướng Loss/Logistics%/Marketing% đều cải thiện về Q1/2026 - tín hiệu tích cực nhưng cần thêm dữ liệu đầy đủ năm để xác nhận không phải nhiễu do dữ liệu tổng hợp.
+7. **Kiểm định bằng Logistic Regression xác nhận cả 3 chi phí là nguyên nhân độc lập** (p<.001, không đếm trùng lẫn nhau), và sau khi quy đổi cùng đơn vị, **Logistics Cost thực ra có độ nhạy cận biên mạnh nhất** (mỗi 1 điểm % tăng, odds lỗ tăng gấp đôi) - tinh tế hơn kết luận từ bin analysis đơn biến.
 
 ## Hạn chế
 
 - **Dữ liệu 2026 chưa đầy đủ** - chỉ có Q1, là dữ liệu tổng hợp (synthetic) thêm để luyện tập, không phải dữ liệu thật cả năm. Mọi kết luận về xu hướng cải thiện cuối kỳ cần xác nhận lại khi có đủ dữ liệu.
 - **Không có thông tin vận chuyển** (hình thức, đơn vị vận chuyển/carrier) nên chưa xác định được nguyên nhân gốc của Logistics Cost cao - chỉ dừng ở mức quan sát tương quan với quy mô đơn hàng (Units_Sold).
-- **Correlation, không phải causation** - Discount, Marketing Cost và Logistics Cost đều tương quan với Loss, nhưng project chưa kiểm định liệu 3 yếu tố này có tương quan lẫn nhau không (ví dụ đơn discount cao có luôn đi kèm marketing cao). Nếu có, một phần ảnh hưởng có thể bị đếm trùng giữa các yếu tố.
+- **Mô hình Logistic Regression chỉ dự đoán tốt nhóm Earn** (sensitivity nhóm Loss 42.7%) do dữ liệu mất cân bằng lớp (94.6% Earn) - mô hình phù hợp cho mục đích giải thích (explanatory), không nên dùng để dự đoán/phân loại đơn hàng mới.
+- **Units_Sold trong mô hình đa biến bị Simpson's Paradox** (đổi chiều so với phân tích đơn biến) do liên hệ toán học với Gross_Sales - không dùng hệ số Units_Sold từ mô hình này để suy luận về quy mô đơn hàng.
 - **166 dòng Discount_Pct gốc >100%** đã được cap về 100% thay vì truy được giá trị đúng - đây là lỗi nhập liệu chưa rõ nguồn gốc, cần điều tra thêm nếu muốn dùng nhóm này cho phân tích sâu hơn.
+- **Notebook cleaning hiện chưa khớp hoàn toàn với dữ liệu 20,434 dòng** đang dùng trong Excel/Power BI (do lỗi thứ tự xử lý biến `df_merged`) - cần vá lại để đảm bảo kết quả tái lập được từ đầu đến cuối pipeline.
+
+---
+
+## Cấu trúc thư mục đề xuất
+
+```
+├── notebooks/Data_Cleanning.ipynb
+├── database/fmcg_sales.db
+├── excel/loss-root-causes.xlsx
+├── powerbi/annual_cost_and_promotion_analysis.pbix
+└── images/   ← ảnh chụp màn hình dùng trong README này
+```
